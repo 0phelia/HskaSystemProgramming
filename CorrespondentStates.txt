@@ -1,0 +1,67 @@
+Identifier State: 1 Line: 1 Column: 1 Lexem: someIdentifier
+INT-Token  State: 34 Line: 2 Column: 1
+Integer    State: 2 Line: 3 Column: 1 Value: 23421
+Colon      State: 3 Line: 4 Column: 1
+Equals     State: 4 Line: 5 Column: 1
+Assignment State: 8 Line: 6 Column: 1
+=:=        State: 7 Line: 7 Column: 1
+DblAndTok  State: 10 Line: 8 Column: 1
+Multiplic  State: 13 Line: 9 Column: 1
+MinusToken State: 20 Line: 13 Column: 1
+PlusToken  State: 19 Line: 14 Column: 1
+NotToken   State: 21 Line: 15 Column: 1
+SemicolTok State: 22 Line: 16 Column: 1
+LessToken  State: 23 Line: 17 Column: 1
+GreatToken State: 24 Line: 18 Column: 1
+Paranth (  State: 25 Line: 19 Column: 1
+Paranth )  State: 26 Line: 20 Column: 1
+Braces {   State: 27 Line: 21 Column: 1
+Braces }   State: 28 Line: 22 Column: 1
+Brackets [ State: 29 Line: 23 Column: 1
+Bracket ]  State: 30 Line: 24 Column: 1
+IF-Token   State: 31 Line: 25 Column: 1
+WHILE-Toke State: 32 Line: 26 Column: 1
+ELSE-Token State: 33 Line: 27 Column: 1
+INT-Token  State: 34 Line: 28 Column: 1
+WRITE-Tokn State: 35 Line: 29 Column: 1
+READ-Token State: 36 Line: 30 Column: 1
+
+
+
+
+src/Parser.cpp:14:14: error: no matching constructor for initialization of
+      'Token' token = new Token();
+SOLUTION: change in Parser.cpp "new Token(1,1,1)"
+
+src/Parser.cpp:15:21: error: too many arguments to function call, expected 0,
+      have 1 scanner->nextToken(token);
+SOLUTION: change in Parser.cpp "token = scanner->nextToken()"
+
+src/Parser.cpp:40:40: error: no member named 'inttyp' in 'CheckableType'; did
+      you mean 'iftyp'?
+        if (info->getType() == CheckableType::inttyp) {
+SOLUTION: change in Informaiton.h Add "inttyp," to the CheckableType. Todo: add integers to the Symtable (?)
+
+src/Parser.cpp:220:22: error: no member named 'getKey' in 'Token'
+        leaf->setKey(token->getKey(), token->getValue());
+SOLUTION: change in Parser.cpp. Simply omit these lines. See following errors to fix the arising issue.
+
+src/Parser.cpp:267:16: error: no member named 'getInfo' in 'Scanner'
+                if (scanner->getInfo(node->getNode(2)->getKey())->getCheckType()
+SOLUTION: change in Parser.cpp. We obtain the desired Information by other means.
+
+src/Parser.cpp:268:67: error: no member named 'getCheckType' in 'Information'
+  ...if (scanner->getInfo(node->getNode(2)->getToken()->getLexem())->getCheck...
+SOLUTION: change in Information.cpp and Infomration.h. Simply completed the methods. 
+
+src/Parser.cpp:278:65: error: no member named 'setCheckType' in 'Information'
+  ...scanner->getInfo(node->getNode(2)->getToken()->getLexem())->setCheckType(
+SOLUTION: change in Information.cpp and Infomration.h. Simply completed the methods. 
+
+src/Parser.cpp:289:68: error: no member named 'getValue' in 'Information'
+  ...if (scanner->getInfo(node->getNode(1)->getToken()->getLexem())->getValue...
+
+
+
+
+look for node(x)->getKey
