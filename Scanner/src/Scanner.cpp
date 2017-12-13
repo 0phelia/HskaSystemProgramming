@@ -117,6 +117,24 @@ Token *Scanner::nextToken() {
 		case 33:
 			t->getInformation()->setType(CheckableType::elsetyp);
 			break;
+		case 22:
+			t->getInformation()->setType(CheckableType::Identifier); // 1 == State::Semikolon
+			break;
+		case 29:
+			t->getInformation()->setType(CheckableType::writetyp); // 2 == State::EckigeKlammerAuf
+			break;
+		case 30:
+			t->getInformation()->setType(CheckableType::readtyp); // 3 == State::EckigeKlammerZu
+			break;
+		case 2:
+			t->getInformation()->setType(CheckableType::Integer); // 0 == State::Number
+			break;
+		case 25:
+			t->getInformation()->setType(CheckableType::elsetyp); // 0 == State::RundeKlammerAuf
+			break;
+		case 26:
+			t->getInformation()->setType(CheckableType::Sign); // 0 == State::RundeKlammerAuf
+			break;
    		default :
 			t->getInformation()->setType(CheckableType::Sign);
 			break;

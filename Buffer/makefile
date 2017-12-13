@@ -8,7 +8,7 @@ GPP_ARGS =
 
 # Linken der Object-files, abhaengig von BufferTarget und TestBufferTarget
 makeTestBuffer: BufferTarget TestBufferTarget
-	g++ $(GPP_ARGS) -g -w $(OBJDIR)/Buffer.o $(BINDIRTEST)/TestBuffer.o -o $(BINDIRTEST)/BufferTest
+	g++ $(GPP_ARGS) -g3 -w $(OBJDIR)/Buffer.o $(BINDIRTEST)/TestBuffer.o -o $(BINDIRTEST)/BufferTest
 	
 dirs:
 	mkdir -p $(SRCDIR)
@@ -19,13 +19,13 @@ dirs:
 # compilieren der Source-files
 # Buffer.o ist abhaengig von Buffer.cpp und Buffer.h
 BufferTarget : $(SRCDIR)/Buffer.cpp $(HEADERDIR)/Buffer.h 
-	g++ $(GPP_ARGS) -g  -c  -w $(SRCDIR)/Buffer.cpp -o $(OBJDIR)/Buffer.o
+	g++ $(GPP_ARGS) -g3  -c  -w $(SRCDIR)/Buffer.cpp -o $(OBJDIR)/Buffer.o
 
 
 
 #TestBuffer.o ist abhaengig von TestBuffer.cpp und Buffer.h
 TestBufferTarget : $(SRCDIR)/TestBuffer.cpp $(HEADERDIR)/Buffer.h
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/TestBuffer.cpp -o $(BINDIRTEST)/TestBuffer.o
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/TestBuffer.cpp -o $(BINDIRTEST)/TestBuffer.o
 
 # loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu compilieren
 cleanBuffer: 

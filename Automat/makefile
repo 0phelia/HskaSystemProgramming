@@ -9,20 +9,20 @@ GPP_ARGS =
 
 # Linken der Object-files, abhaengig von AutomatTarget und TestAutomatTarget
 makeTestAutomat : AutomatTarget TestAutomatTarget
-	g++ $(GPP_ARGS) -g -w $(OBJDIR)/Syntax.o $(OBJDIR)/Stack.o $(OBJDIR)/Automat.o $(BINDIRTEST)/TestAutomat.o -o $(BINDIRTEST)/AutomatTest
+	g++ $(GPP_ARGS) -g3 -w $(OBJDIR)/Syntax.o $(OBJDIR)/Stack.o $(OBJDIR)/Automat.o $(BINDIRTEST)/TestAutomat.o -o $(BINDIRTEST)/AutomatTest
 	 	
 
 	
 # compilieren des Files Automat.cpp zu Automat.o, 
 # das Objekt-File ist abhängig von src/Automat.cpp und src/Automat.h
 AutomatTarget: src/Automat.cpp includes/Automat.h
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Automat.cpp     -o $(OBJDIR)/Automat.o 
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Syntax.cpp      -o $(OBJDIR)/Syntax.o
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Stack.cpp       -o $(OBJDIR)/Stack.o
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Automat.cpp     -o $(OBJDIR)/Automat.o 
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Syntax.cpp      -o $(OBJDIR)/Syntax.o
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Stack.cpp       -o $(OBJDIR)/Stack.o
 	
 # TestAutomat.o ist abhängig von src/TestAutomat.cpp und src/Automat.h
 TestAutomatTarget : $(SRCDIR)/TestAutomat.cpp    $(HEADERDIR)/Automat.h
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/TestAutomat.cpp -o $(BINDIRTEST)/TestAutomat.o  
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/TestAutomat.cpp -o $(BINDIRTEST)/TestAutomat.o  
 
 # loeschen aller files im verzeichnis obj und debug, dann neu erzeugen
 cleanAutomat: 

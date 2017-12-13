@@ -14,18 +14,18 @@ dirs:
 
 # Linken der Object-Files
 makeTestSymboltable:  SymboltableTarget TestSymboltableTarget
-	g++ $(GPP_ARGS) -g -w $(OBJDIR)/*.o $(BINDIRTEST)/TestSymboltable.o  $(INFODIR)/Information.o -o $(BINDIRTEST)/SymboltableTest
+	g++ $(GPP_ARGS) -g3 -w $(OBJDIR)/*.o $(BINDIRTEST)/TestSymboltable.o  $(INFODIR)/Information.o -o $(BINDIRTEST)/SymboltableTest
 
 # compilieren 
 
 SymboltableTarget:  src/Symboltable.cpp includes/Symboltable.h
-	g++ $(GPP_ARGS) -g  -c -w src/Symboltable.cpp  -o $(OBJDIR)/Symboltable.o
-	g++ $(GPP_ARGS) -g  -c -w src/StringTab.cpp  -o $(OBJDIR)/StringTab.o
-	g++ $(GPP_ARGS) -g  -c -w src/SymtabEntry.cpp  -o $(OBJDIR)/SymtabEntry.o
+	g++ $(GPP_ARGS) -g3  -c -w src/Symboltable.cpp  -o $(OBJDIR)/Symboltable.o
+	g++ $(GPP_ARGS) -g3  -c -w src/StringTab.cpp  -o $(OBJDIR)/StringTab.o
+	g++ $(GPP_ARGS) -g3  -c -w src/SymtabEntry.cpp  -o $(OBJDIR)/SymtabEntry.o
 
 # TestSymboltable.o ist abhängig von src/TestSymboltable.cpp und includes/Symboltable.h
 TestSymboltableTarget:  $(SRCDIR)/TestSymboltable.cpp $(HEADERDIR)/Symboltable.h
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/TestSymboltable.cpp -o $(BINDIRTEST)/TestSymboltable.o  
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/TestSymboltable.cpp -o $(BINDIRTEST)/TestSymboltable.o  
 	
 # loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu compilieren
 cleanSymboltable: 

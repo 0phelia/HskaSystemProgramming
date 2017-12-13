@@ -22,12 +22,12 @@ makeTestParser: $(OBJS) ParserTest
 
 $(OBJDIR)/%.o :  $(SRCDIR)/%.cpp $(HEADERDIR)/%.h
 	@echo "g++ $*.cpp"
-	g++ $(GPP_ARGS) -g -w -c -o $@  $<
+	g++ $(GPP_ARGS) -g3 -w -c -o $@  $<
 
 # stick the rest of your *.o files into here
 ParserTest: $(SRCDIR)/TestParser.cpp $(HEADERDIR)/Parser.h
-	g++ -std=$(CPPVERSION) -g -w -c $(SRCDIR)/TestParser.cpp -o $(BINDIRTEST)/TestParser.o
-	g++ -std=$(CPPVERSION) -g -w $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o $(SCANNERDIR)/$(OBJDIR)/*.o $(OBJDIR)/Node.o $(OBJDIR)/Parser.o $(BINDIRTEST)/TestParser.o -o $(BINDIRTEST)/ParserTest  
+	g++ -std=$(CPPVERSION) -g3 -w -c $(SRCDIR)/TestParser.cpp -o $(BINDIRTEST)/TestParser.o
+	g++ -std=$(CPPVERSION) -g3 -w $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o $(SCANNERDIR)/$(OBJDIR)/*.o $(OBJDIR)/Node.o $(OBJDIR)/Parser.o $(BINDIRTEST)/TestParser.o -o $(BINDIRTEST)/ParserTest  
 
 # loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu erstellen
 cleanParser:

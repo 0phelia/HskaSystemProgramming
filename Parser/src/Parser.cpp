@@ -60,8 +60,12 @@ Node* Parser::parseDecl() {
 }
 
 Node* Parser::parseArray() {
+
 	auto array = createNode(NodeType::ARRAY);
-	if (token->getType() == State::EckigeKlammerAuf) {
+	auto info = token->getInformation();
+
+	std::cout<< "ARRRRRRAY: tokentype=" << info->getType() << std::endl;
+	if (info->getType() == State::EckigeKlammerAuf) {
 		array->addNode(match(State::EckigeKlammerAuf));
 		array->addNode(match(State::Number));
 		array->addNode(match(State::EckigeKlammerZu));
@@ -87,6 +91,7 @@ Node* Parser::parseStatements() {
 Node* Parser::parseStatement() {
 	auto statement = createNode(NodeType::STATEMENT);
 	auto infoType = token->getInformation()->getType();
+	std::cout << "parseStatement______ infoType: " << infoType << std::endl;
 	auto tokenType = token->getType();
 	if (infoType == CheckableType::Identifier) {
 		statement->addNode(match(CheckableType::Identifier));
@@ -123,6 +128,7 @@ Node* Parser::parseStatement() {
 		statement->addNode(match(State::RundeKlammerZu));
 		statement->addNode(parseStatement());
 	} else {
+		std::cout << "snappppp1" << std::endl;
 		error();
 	}
 	return statement;
@@ -155,6 +161,7 @@ Node* Parser::parseExp2() {
 		exp2->addNode(match(State::Ausrufezeichen));
 		exp2->addNode(parseExp2());
 	} else {
+		std::cout << "snappppp2" << std::endl;
 		error();
 	}
 	return exp2;
@@ -208,6 +215,7 @@ Node* Parser::parseOp() {
 	} else if (tokenType == State::UndZeichen) {
 		op->addNode(match(State::UndZeichen));
 	} else {
+		std::cout << "snappppp3" << std::endl;
 		error();
 	}
 	return op;
@@ -215,16 +223,16 @@ Node* Parser::parseOp() {
 
 void Parser::nextToken() {
 	token = scanner->nextToken();
-	std::cout << "Parser::nextToken() calls:  nextToken() " << token->getType() << std::endl;
+	std::cout << "Parser::nextToken() calls:  nextToken() " << token->getType() << " at "<< token->getLine() << ":" << token->getColumn() << std::endl;
 
 }
 
 Node* Parser::match(State typ) {
 	std::cout << "In match 1: tokenType = " << token->getInformation()->getType() << ";  actual = " << typ << " ";
-	if (token->getType() != typ) {
+	if (token->getInformation()->getType() != typ) {
 		error();
 	} else {
-		std::cout << "Checking for Semikolon passed. " << std::endl;
+		std::cout << "TYPES MATCHED " << std::endl;
 
 	}
 	auto leaf = createNode(NodeType::LEAF);
@@ -239,21 +247,21 @@ Node* Parser::match(CheckableType typ) {
 	if (token->getInformation()->getType() != typ) {
 		error();
 	} else {
-		std::cout << "Checking for Semikolon passed." << std::endl;
+		std::cout << "TYPES MATCHED " << std::endl;
 	}
 	auto leaf = createNode(NodeType::LEAF);
 	leaf->setToken(token);
-	std::cout << "is segfault "<< std::endl;
 	//leaf->setKey(token->getKey(), token->getValue());
 	nextToken();
 	return leaf;
 }
 
 void Parser::error() {
-	std::cout << "ERROR REACHED";
-	fprintf(stderr, "unexpected token '%s' at line '%d', column '%d'\n",
-			token->getValue(), token->getLine(), token->getColumn());
-	printf("stop\n");
+	std::cout << "unexpected token of type " << token->getInformation()->getType() << " at "<<
+		token->getLine() << ":"<< token->getColumn() << std::endl;
+	//fprintf(stderr, "unexpected token '%s' at line '%d', column '%d'\n",
+	//		token->getValue(), token->getLine(), token->getColumn());
+	std::cout << ("stop") << std::endl;
 	exit(1);
 }
 
@@ -281,6 +289,9 @@ void Parser::typeCheck(Node* node) {
 		node->setCheckType(CheckType::noType);
 	} else if (node->getType() == NodeType::DECL) {
 		typeCheck(node->getNode(1));
+		auto nummb = node->getNode(2)->getToken()->getLexem();
+		//std::cout << "CHECK TYPE: "<< scanner->getInfo(node->getNode(2)->getToken()->getLexem())->setCheckType((CheckType)4) << std::endl;
+
 		if ((CheckType)scanner->getInfo(node->getNode(2)->getToken()->getLexem())->getCheckType()
 				!= CheckType::noType) {
 			errorTypeCheck("identifier already defined",

@@ -1,0 +1,14 @@
+
+sudo lldb ./Parser/debug/ParserTest test/parser3.txt test/out.txt
+r test/parser3.txt test/out.txt
+
+r /Users/arty/SublimeProjects/Sysprog2017/test/parser3.txt /Users/arty/SublimeProjects Sysprog2017/test/out.txt
+
+thread backtrace
+
+
+
+
+
+
+./Parser/debug/ParserTest  test/parser3.txt test/out.txt

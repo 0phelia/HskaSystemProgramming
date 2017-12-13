@@ -22,11 +22,11 @@ makeTestScanner:  $(OBJS) ScannerTest
 
 $(OBJDIR)/%.o :  $(SRCDIR)/%.cpp $(HEADERDIR)/%.h
 	@echo "g++ $*.cpp"
-	g++ $(GPP_ARGS) -g -w -c  -o $@  $<
+	g++ $(GPP_ARGS) -g3 -w -c  -o $@  $<
 
 ScannerTest:  $(SRCDIR)/TestScanner.cpp $(HEADERDIR)/Scanner.h
-	g++ $(GPP_ARGS) -g -w -c src/TestScanner.cpp -o $(BINDIRTEST)/TestScanner.o
-	g++ $(GPP_ARGS) -g -w $(BINDIRTEST)/TestScanner.o $(OBJDIR)/*.o $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o -o $(BINDIRTEST)/ScannerTest  
+	g++ $(GPP_ARGS) -g3 -w -c src/TestScanner.cpp -o $(BINDIRTEST)/TestScanner.o
+	g++ $(GPP_ARGS) -g3 -w $(BINDIRTEST)/TestScanner.o $(OBJDIR)/*.o $(AUTOMATDIR)/$(OBJDIR)/*.o $(BUFFERDIR)/$(OBJDIR)/*.o $(SYMBOLTABLEDIR)/$(OBJDIR)/*.o -o $(BINDIRTEST)/ScannerTest  
 
 # loeschen aller files im verzeichnis $(OBJDIR) und $(BINDIRTEST) und neu erstellen
 cleanScanner: 
@@ -37,9 +37,9 @@ cleanScanner:
 
 
 ScannerTarget: src/Scanner.cpp includes/Scanner.h
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Scanner.cpp     -o $(OBJDIR)/Scanner.o 
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Information.cpp      -o $(OBJDIR)/Information.o
-	g++ $(GPP_ARGS) -g  -c -w $(SRCDIR)/Token.cpp       -o $(OBJDIR)/Token.o
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Scanner.cpp     -o $(OBJDIR)/Scanner.o 
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Information.cpp      -o $(OBJDIR)/Information.o
+	g++ $(GPP_ARGS) -g3  -c -w $(SRCDIR)/Token.cpp       -o $(OBJDIR)/Token.o
 	
 
 ScannerOBJTarget:  

@@ -1,9 +1,10 @@
 enum class CheckType {
+	noType,
 	emptyType,
 	intType,
 	intArrayType,
 	arrayType,
-	noType,
+	
 	errorType,
 	opPlus,
 	opMinus,
