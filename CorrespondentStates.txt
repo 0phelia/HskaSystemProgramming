@@ -64,4 +64,13 @@ src/Parser.cpp:289:68: error: no member named 'getValue' in 'Information'
 
 
 
-look for node(x)->getKey
+AUFGABE:
+Speichern Sie die Typ-Information im Knoten und für Identifier als Information in der Symboltabelle.
+
+BUGS:
+1. always add new line at the bottom of INPUT file, otherwise -> segfault
+2. probably it would be better to delete 
+	if (token->getLine() == -1) {
+		return;
+	}
+	at the beginning of each func

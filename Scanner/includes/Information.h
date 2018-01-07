@@ -8,42 +8,37 @@
 #ifndef SCANNER_INCLUDES_INFORMATION_H_
 #define SCANNER_INCLUDES_INFORMATION_H_
 
-
-typedef enum {
-	Integer,
-	Identifier,
-	writetyp,
-	readtyp,
-	iftyp,
-	whiletyp,
-	elsetyp,
-	Sign,
-	inttyp, // not sure yet how to handle that. Prbly should add numbers to Symtab
-	noType
-	//uncheckedType,
-	//intType,
-	//intArrayType,
-	//arrayType,
-	//noType,
-	//errorType
-}CheckableType;
+//#include "TerminalType.h"
+//#include "../../Parser/includes/Node.h"
 
 class Information {
 	char* lexem;
-	CheckableType type;
+	int checkType;
+
+	int additionalShitType;
 public:
 	Information();
 	Information(char* lexem);
 	virtual ~Information();
 	void setLexem(char* lexem);
 	char* getLexem();
-	CheckableType getType();
+
 	bool matches(const char* other);
-	void setType (CheckableType type);
+
 	int getCheckType();
 	void setCheckType(int checkType);
-private:
-	int checkType;
+
+	bool isNumber();
+	bool isIdentifier();
+	bool isIf();
+	bool isWhile();
+	bool isElse();
+	bool isWrite();
+	bool isRead();
+	bool isIntKeyword();
+	bool isKlammerAuf();
+
+	void setAdditionalShitType(int addshitType);
 };
 
 

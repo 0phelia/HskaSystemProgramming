@@ -6,15 +6,20 @@
  */
 
 #include "../includes/Information.h"
+
 #include <iostream>
 
 Information::Information() {
-	this->type = CheckableType::noType; // noType from Node.h
+	this->checkType = 0; // noType from Node.h
 	this->lexem = '\0';
+	this->additionalShitType = -1;
 }
 
 Information::Information(char* lexem) {
+	this->checkType = 1; // noType from Node.h
 	setLexem(lexem);
+	this->additionalShitType = -1;
+
 }
 
 Information::~Information() {
@@ -30,8 +35,15 @@ char* Information::getLexem() {
 }
 
 bool Information::matches(const char* other) {
-	const char* tmp1 = lexem;
+	if (this->lexem == nullptr) {
+		std::cout << "its fucking nullpt  "<< std::endl;
+	}
+	if (other == nullptr) {
+		std::cout << "the second is too"<< std::endl;
+	}
+	const char* tmp1 = this->lexem;
 	const char* tmp2 = other;
+	
 	while (tmp1[0] != '\0' || tmp2[0] != '\0') {
 		if (tmp1++[0] != tmp2++[0]) {
 			return false;
@@ -39,14 +51,16 @@ bool Information::matches(const char* other) {
 	}
 	return true;
 }
-
-CheckableType Information::getType() {
-	return this->type;
+void Information::setAdditionalShitType(int shittype) {
+	this->additionalShitType = shittype;
 }
+// CheckableType Information::getType() {
+// 	return this->type;
+// }
 
-void Information::setType(CheckableType type) {
-	this->type = type;
-}
+// void Information::setType(CheckableType type) {
+// 	this->type = type;
+// }
 
 int Information::getCheckType() {
 	return checkType;
@@ -54,4 +68,51 @@ int Information::getCheckType() {
 
 void Information::setCheckType(int checkType) {
 	this->checkType = checkType;
+	//std::cout << "Tried to set CheckType to " << checkType << " for " << lexem << std::endl;
+}
+
+bool Information::isNumber() {
+	int i = 0;
+	while (getLexem()[i] != '\0') {
+		if ( ! (getLexem()[i] >= '0' && getLexem()[i] <= '9' )) {
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
+bool Information::isIdentifier() {
+	return !isIf() && !isWhile() && !isElse() && !isWrite() && !isRead()
+		&& !isIntKeyword() && !isKlammerAuf();
+}
+
+bool Information::isIf() {
+
+	return (matches("if") || matches("IF"));
+}
+
+bool Information::isWhile() {
+	return (matches("while") || matches("WHILE"));
+}
+
+bool Information::isElse() {
+	return (matches("else") || matches("ELSE"));
+}
+
+bool Information::isWrite() {
+	return matches("write");
+}
+bool Information::isRead() {
+	return matches("read");
+}
+
+bool Information::isIntKeyword() {
+	return matches("int");
+}
+
+
+bool Information::isKlammerAuf() {
+
+	return matches("{");
 }

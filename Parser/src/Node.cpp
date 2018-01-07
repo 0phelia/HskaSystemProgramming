@@ -1,6 +1,6 @@
 #include "../includes/Node.h"
 #include "../../Scanner/includes/Token.h"
-
+#include <iostream>
 /*
  * Node.cpp
  *
@@ -19,6 +19,7 @@ Node::~Node() {
 }
 
 void Node::addNode(Node* node) {
+	//std::cout << "Parent node type: " << (int) type << "    added #" << subnodes_count << "  of type " << (int) node->getType() << std::endl;
 	subnodes[subnodes_count] = node;
 	subnodes_count++;
 }

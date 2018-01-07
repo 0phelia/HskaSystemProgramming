@@ -47,7 +47,7 @@ Token *Scanner::nextToken() {
 	//std::cout << "debuging *** Scanner::nextToken DO-STRT" << std::endl;
 	/* run automat and feed it char by char, till any lexem is found */
 	if(buffer->isEnd())
-		return nullptr;
+		return new Token(22,-1,-1);
 	do {
 		currentChar = buffer->getChar();
 		int back_steps = automat->read(currentChar);
@@ -71,11 +71,37 @@ Token *Scanner::nextToken() {
 
 	/* add additional information to the token */
 	Information* info;
-	if (tokenType == Syntax::IDEN_Z) {
+	if ( tokenType == Syntax::IDEN_Z || (tokenType >= 30 && tokenType < 37) 
+		|| tokenType == 19 // +
+		|| tokenType == 20 // -
+		|| tokenType == 13 // *
+		|| tokenType == 3 // : colon
+
+		|| tokenType == 23 // <
+		|| tokenType == 24 // >
+		|| tokenType == 4 // =
+		|| tokenType == 7 // =:=
+		|| tokenType == 10 // &&
+
+		|| tokenType == 25 // (
+		|| tokenType == 26 // )
+		|| tokenType == 27 // {
+		|| tokenType == 28 // }
+		|| tokenType == 21 // )
+		|| tokenType == 2 // some number
+		) {
+		//std::cout << "INFO >>> " << lexem << std::endl;
+
 		info = stab->lookup(lexem);
+
 		if (info == nullptr) {
 			SymtabEntry* entry = stab->insert(lexem, lexemLength);
 			info = entry->getInfo();
+			//
+			//
+			//mapRightCheckableTypeToInfo(info, tokenType);
+			//
+			//
 		}
 		t->setInformation(info);
 	} else if (tokenType == Syntax::AND1_Z || tokenType == Syntax::PROH_Z) {
@@ -85,59 +111,61 @@ Token *Scanner::nextToken() {
 
 
 		t->setInformation(new Information());
-	} else if (tokenType == Syntax::INTG_Z) {
-		getNumberToken(lexem, t);
-
-
-		t->setInformation(new Information());
 	} else {
 		t->setInformation(new Information());
 	}
+	//std::cout << "INFO >>> " << t->getInformation()->getLexem() << std::endl;
+
+	 if (tokenType == Syntax::INTG_Z) {
+		getNumberToken(lexem, t);
+	}
 
 	// this was added as a part of new parser integration
-	switch(tokenType) {
-		case 34:
-			t->getInformation()->setType(CheckableType::inttyp);
-			break;
-		case 1:
-			t->getInformation()->setType(CheckableType::Identifier);
-			break;
-		case 35:
-			t->getInformation()->setType(CheckableType::writetyp);
-			break;
-		case 36:
-			t->getInformation()->setType(CheckableType::readtyp);
-			break;
-  		case 31:
-			t->getInformation()->setType(CheckableType::iftyp);
-			break;
-		case 32:
-			t->getInformation()->setType(CheckableType::whiletyp);
-			break;
-		case 33:
-			t->getInformation()->setType(CheckableType::elsetyp);
-			break;
-		case 22:
-			t->getInformation()->setType(CheckableType::Identifier); // 1 == State::Semikolon
-			break;
-		case 29:
-			t->getInformation()->setType(CheckableType::writetyp); // 2 == State::EckigeKlammerAuf
-			break;
-		case 30:
-			t->getInformation()->setType(CheckableType::readtyp); // 3 == State::EckigeKlammerZu
-			break;
-		case 2:
-			t->getInformation()->setType(CheckableType::Integer); // 0 == State::Number
-			break;
-		case 25:
-			t->getInformation()->setType(CheckableType::elsetyp); // 0 == State::RundeKlammerAuf
-			break;
-		case 26:
-			t->getInformation()->setType(CheckableType::Sign); // 0 == State::RundeKlammerAuf
-			break;
-   		default :
-			t->getInformation()->setType(CheckableType::Sign);
-			break;
+
+	//t->getInformation()->setAdditionalShitType(tokenType);
+	switch (tokenType) {
+		//case 19:
+		//	t->getInformation()->setAdditionalShitType(19);
+		//	break;
+		//case 1:
+		//	t->getInformation()->setType(CheckableType::Identifier);
+		//	break;
+		//case 35:
+		//	t->getInformation()->setType(CheckableType::writetyp);
+		//	break;
+		//case 36:
+		//	t->getInformation()->setType(CheckableType::readtyp);
+		//	break;
+  		//case 31:
+		//	t->getInformation()->setType(CheckableType::iftyp);
+		//	break;
+		//case 32:
+		//	t->getInformation()->setType(CheckableType::whiletyp);
+		//	break;
+		//case 33:
+		//	t->getInformation()->setType(CheckableType::elsetyp);
+		//	break;
+		// case 22:
+		// 	t->getInformation()->setType(CheckableType::Identifier); // 1 == State::Semikolon
+		// 	break;
+		// case 29:
+		// 	t->getInformation()->setType(CheckableType::writetyp); // 2 == State::EckigeKlammerAuf
+		// 	break;
+		// case 30:
+		// 	t->getInformation()->setType(CheckableType::readtyp); // 3 == State::EckigeKlammerZu
+		// 	break;
+		// case 2:
+		// 	t->getInformation()->setType(CheckableType::Integer); // 0 == State::Number
+		// 	break;
+		// case 25:
+		// 	t->getInformation()->setType(CheckableType::elsetyp); // 0 == State::RundeKlammerAuf
+		// 	break;
+		// case 26:
+		// 	t->getInformation()->setType(CheckableType::Sign); // 0 == State::RundeKlammerAuf
+		// 	break;
+   		//default :
+		////	t->getInformation()->setType(CheckableType::Sign);
+		//	break;
 	}
 	
 	/* now we can reset automat */
@@ -146,7 +174,7 @@ Token *Scanner::nextToken() {
 
 	/* if we need to finish already*/
 	if (currentChar == '\0') {
-		return nullptr;
+		return new Token(22,-1,-1);
 	} else {
 		return t;
 	}
@@ -184,5 +212,11 @@ void Scanner::getNumberToken(const char* lexem, Token* t) {
 	} else {
 		t->setValue(value);
 	}
+
+}
+
+
+void Scanner::mapRightCheckableTypeToInfo(Information* info, int tokenType) {
+
 
 }

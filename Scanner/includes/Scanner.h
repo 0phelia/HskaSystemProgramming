@@ -31,6 +31,7 @@ public:
 	Token* nextToken();
 	virtual ~Scanner();
 	Information* getInfo(char* lexem);
+	void mapRightCheckableTypeToInfo(Information* info, int tokenType);
 
 };
 

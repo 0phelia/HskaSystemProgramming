@@ -33,6 +33,9 @@ Node* Parser::parse() {
 
 Node* Parser::parseProg() {
 	auto prog = createNode(NodeType::PROG);
+	// if (token->getLine() == -1) {
+	// 	return;
+	// }
 	auto decls = parseDecls();
 	prog->addNode(decls);
 	auto statements = parseStatements();
@@ -42,10 +45,13 @@ Node* Parser::parseProg() {
 
 Node* Parser::parseDecls() {
 	auto decls = createNode(NodeType::DECLS);
-	auto info = token->getInformation();
-	if (info->getType() == CheckableType::inttyp) {
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	//auto info = token->getInformation();
+	if (token->getType() == StateUpdated::KeywordInt) {
 		decls->addNode(parseDecl());
-		decls->addNode(match(State::Semikolon));
+		decls->addNode(match(StateUpdated::Semikolon));
 		decls->addNode(parseDecls());
 	}
 	return decls;
@@ -53,36 +59,45 @@ Node* Parser::parseDecls() {
 
 Node* Parser::parseDecl() {
 	auto decl = createNode(NodeType::DECL);
-	decl->addNode(match(CheckableType::inttyp));
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	decl->addNode(match(StateUpdated::KeywordInt));
 	decl->addNode(parseArray());
-	decl->addNode(match(CheckableType::Identifier));
+	decl->addNode(match(StateUpdated::IdentifierU));
 	return decl;
 }
 
 Node* Parser::parseArray() {
 
 	auto array = createNode(NodeType::ARRAY);
-	auto info = token->getInformation();
-
-	std::cout<< "ARRRRRRAY: tokentype=" << info->getType() << std::endl;
-	if (info->getType() == State::EckigeKlammerAuf) {
-		array->addNode(match(State::EckigeKlammerAuf));
-		array->addNode(match(State::Number));
-		array->addNode(match(State::EckigeKlammerZu));
+	//auto info = token->getInformation();
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	//std::cout<< "ARRRRRRAY: tokentype=" << info->getType() << std::endl;
+	if (token->getType() == StateUpdated::EckigeKlammerAuf) {
+		array->addNode(match(StateUpdated::EckigeKlammerAuf));
+		array->addNode(match(StateUpdated::Number));
+		array->addNode(match(StateUpdated::EckigeKlammerZu));
 	}
 	return array;
 }
 
 Node* Parser::parseStatements() {
 	auto statements = createNode(NodeType::STATEMENTS);
-	auto infoType = token->getInformation()->getType();
+	//auto infoType = token->getInformation()->getType();
 	auto tokenType = token->getType();
-	if (infoType == CheckableType::Identifier || infoType == CheckableType::writetyp
-			|| infoType == CheckableType::readtyp
-			|| tokenType == State::GeschweifteKlammerAuf
-			|| infoType == CheckableType::iftyp || infoType == CheckableType::whiletyp) {
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	if (tokenType == StateUpdated::IdentifierU || tokenType == StateUpdated::KeywordWrite
+			|| tokenType == StateUpdated::KeywordRead
+			|| tokenType == StateUpdated::GeschweifteKlammerAuf
+			|| tokenType == StateUpdated::KeywordIf || tokenType == StateUpdated::KeywordWhile) {
+		std::cout << "got inside parseStatements() tokenType: " << tokenType << std::endl;
 		statements->addNode(parseStatement());
-		statements->addNode(match(State::Semikolon));
+		statements->addNode(match(StateUpdated::Semikolon));
 		statements->addNode(parseStatements());
 	}
 	return statements;
@@ -90,45 +105,49 @@ Node* Parser::parseStatements() {
 
 Node* Parser::parseStatement() {
 	auto statement = createNode(NodeType::STATEMENT);
-	auto infoType = token->getInformation()->getType();
-	std::cout << "parseStatement______ infoType: " << infoType << std::endl;
+	//auto infoType = token->getInformation()->getType();
 	auto tokenType = token->getType();
-	if (infoType == CheckableType::Identifier) {
-		statement->addNode(match(CheckableType::Identifier));
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	std::cout << "got inside parseStatement() tokenType: " << tokenType << std::endl;
+
+	if (tokenType == StateUpdated::IdentifierU) {
+		statement->addNode(match(StateUpdated::IdentifierU));
 		statement->addNode(parseIndex());
-		statement->addNode(match(State::DoppelpunktIstGleich));
+		statement->addNode(match(StateUpdated::DoppelpunktIstGleich));
 		statement->addNode(parseExp());
-	} else if (infoType == CheckableType::writetyp) {
-		statement->addNode(match(CheckableType::writetyp));
-		statement->addNode(match(State::RundeKlammerAuf));
+	} else if (tokenType == StateUpdated::KeywordWrite) {
+		statement->addNode(match(StateUpdated::KeywordWrite));
+		statement->addNode(match(StateUpdated::RundeKlammerAuf));
 		statement->addNode(parseExp());
-		statement->addNode(match(State::RundeKlammerZu));
-	} else if (infoType == CheckableType::readtyp) {
-		statement->addNode(match(CheckableType::readtyp));
-		statement->addNode(match(State::RundeKlammerAuf));
-		statement->addNode(match(CheckableType::Identifier));
+		statement->addNode(match(StateUpdated::RundeKlammerZu));
+	} else if (tokenType == StateUpdated::KeywordRead) {
+		statement->addNode(match(StateUpdated::KeywordRead));
+		statement->addNode(match(StateUpdated::RundeKlammerAuf));
+		statement->addNode(match(StateUpdated::IdentifierU));
 		statement->addNode(parseIndex());
-		statement->addNode(match(State::RundeKlammerZu));
-	} else if (tokenType == State::GeschweifteKlammerAuf) {
-		statement->addNode(match(State::GeschweifteKlammerAuf));
+		statement->addNode(match(StateUpdated::RundeKlammerZu));
+	} else if (tokenType == StateUpdated::GeschweifteKlammerAuf) {
+		statement->addNode(match(StateUpdated::GeschweifteKlammerAuf));
 		statement->addNode(parseStatements());
-		statement->addNode(match(State::GeschweifteKlammerZu));
-	} else if (infoType == CheckableType::iftyp) {
-		statement->addNode(match(CheckableType::iftyp));
-		statement->addNode(match(State::RundeKlammerAuf));
+		statement->addNode(match(StateUpdated::GeschweifteKlammerZu));
+	} else if (tokenType == StateUpdated::KeywordIf) {
+		statement->addNode(match(StateUpdated::KeywordIf));
+		statement->addNode(match(StateUpdated::RundeKlammerAuf));
 		statement->addNode(parseExp());
-		statement->addNode(match(State::RundeKlammerZu));
+		statement->addNode(match(StateUpdated::RundeKlammerZu));
 		statement->addNode(parseStatement());
-		statement->addNode(match(CheckableType::elsetyp));
+		statement->addNode(match(StateUpdated::KeywordElse));
 		statement->addNode(parseStatement());
-	} else if (infoType == CheckableType::whiletyp) {
-		statement->addNode(match(CheckableType::whiletyp));
-		statement->addNode(match(State::RundeKlammerAuf));
+	} else if (tokenType == StateUpdated::KeywordWhile) {
+		statement->addNode(match(StateUpdated::KeywordWhile));
+		statement->addNode(match(StateUpdated::RundeKlammerAuf));
 		statement->addNode(parseExp());
-		statement->addNode(match(State::RundeKlammerZu));
+		statement->addNode(match(StateUpdated::RundeKlammerZu));
 		statement->addNode(parseStatement());
 	} else {
-		std::cout << "snappppp1" << std::endl;
+		std::cout << "error in parseStatement()" << std::endl;
 		error();
 	}
 	return statement;
@@ -136,6 +155,10 @@ Node* Parser::parseStatement() {
 
 Node* Parser::parseExp() {
 	auto exp = createNode(NodeType::EXP);
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+
 	exp->addNode(parseExp2());
 	exp->addNode(parseOpExp());
 	return exp;
@@ -143,25 +166,29 @@ Node* Parser::parseExp() {
 
 Node* Parser::parseExp2() {
 	auto exp2 = createNode(NodeType::EXP2);
-	auto infoType = token->getInformation()->getType();
+	//auto infoType = token->getInformation()->getType();
 	auto tokenType = token->getType();
-	if (tokenType == State::RundeKlammerAuf) {
-		exp2->addNode(match(State::RundeKlammerAuf));
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	std::cout << "got inside parseExp2() tokenTyoe: " << tokenType << std::endl;
+	if (tokenType == StateUpdated::RundeKlammerAuf) {
+		exp2->addNode(match(StateUpdated::RundeKlammerAuf));
 		exp2->addNode(parseExp());
-		exp2->addNode(match(State::RundeKlammerZu));
-	} else if (infoType == CheckableType::Identifier) {
-		exp2->addNode(match(CheckableType::Identifier));
+		exp2->addNode(match(StateUpdated::RundeKlammerZu));
+	} else if (tokenType == StateUpdated::IdentifierU) {
+		exp2->addNode(match(StateUpdated::IdentifierU));
 		exp2->addNode(parseIndex());
-	} else if (infoType == CheckableType::Integer) {
-		exp2->addNode(match(CheckableType::Integer));
-	} else if (tokenType == State::Minus) {
-		exp2->addNode(match(State::Minus));
+	} else if (tokenType == StateUpdated::Number) {
+		exp2->addNode(match(StateUpdated::Number));
+	} else if (tokenType == StateUpdated::Minus) {
+		exp2->addNode(match(StateUpdated::Minus));
 		exp2->addNode(parseExp2());
-	} else if (tokenType == State::Ausrufezeichen) {
-		exp2->addNode(match(State::Ausrufezeichen));
+	} else if (tokenType == StateUpdated::Ausrufezeichen) {
+		exp2->addNode(match(StateUpdated::Ausrufezeichen));
 		exp2->addNode(parseExp2());
 	} else {
-		std::cout << "snappppp2" << std::endl;
+		std::cout << "error in parseExp2()" << std::endl;
 		error();
 	}
 	return exp2;
@@ -169,10 +196,15 @@ Node* Parser::parseExp2() {
 
 Node* Parser::parseIndex() {
 	auto index = createNode(NodeType::INDEX);
-	if (token->getType() == State::EckigeKlammerAuf) {
-		index->addNode(match(State::EckigeKlammerAuf));
+	//if (token->getLine() == -1) {
+//		return;
+	//}
+	std::cout << "got inside parseIndex() tokenType: " << token->getType() << std::endl;
+
+	if (token->getType() == StateUpdated::EckigeKlammerAuf) {
+		index->addNode(match(StateUpdated::EckigeKlammerAuf));
 		index->addNode(parseExp());
-		index->addNode(match(State::EckigeKlammerZu));
+		index->addNode(match(StateUpdated::EckigeKlammerZu));
 	}
 	return index;
 }
@@ -180,13 +212,16 @@ Node* Parser::parseIndex() {
 Node* Parser::parseOpExp() {
 	auto op_exp = createNode(NodeType::OP_EXP);
 	auto tokenType = token->getType();
-	if (tokenType == State::Plus || tokenType == State::Minus
-			|| tokenType == State::Stern
-			|| tokenType == State::VorwaertsSchraegstrich
-			|| tokenType == State::KleinerAls || tokenType == State::GroesserAls
-			|| tokenType == State::kleinerDoppelpunktGroesser
-			|| tokenType == State::IstGleichZeichen
-			|| tokenType == State::UndZeichen) {
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	if (tokenType == StateUpdated::Plus || tokenType == StateUpdated::Minus
+			|| tokenType == StateUpdated::Stern
+			|| tokenType == StateUpdated::VorwaertsSchraegstrich
+			|| tokenType == StateUpdated::KleinerAls || tokenType == StateUpdated::GroesserAls
+			|| tokenType == StateUpdated::kleinerDoppelpunktGroesser
+			|| tokenType == StateUpdated::IstGleichZeichen
+			|| tokenType == StateUpdated::UndZeichen) {
 		op_exp->addNode(parseOp());
 		op_exp->addNode(parseExp());
 	}
@@ -196,26 +231,29 @@ Node* Parser::parseOpExp() {
 Node* Parser::parseOp() {
 	auto op = createNode(NodeType::OP);
 	auto tokenType = token->getType();
-	if (tokenType == State::Plus) {
-		op->addNode(match(State::Plus));
-	} else if (tokenType == State::Minus) {
-		op->addNode(match(State::Minus));
-	} else if (tokenType == State::Stern) {
-		op->addNode(match(State::Stern));
-	} else if (tokenType == State::VorwaertsSchraegstrich) {
-		op->addNode(match(State::VorwaertsSchraegstrich));
-	} else if (tokenType == State::KleinerAls) {
-		op->addNode(match(State::KleinerAls));
-	} else if (tokenType == State::GroesserAls) {
-		op->addNode(match(State::GroesserAls));
-	} else if (tokenType == State::IstGleichZeichen) {
-		op->addNode(match(State::IstGleichZeichen));
-	} else if (tokenType == State::kleinerDoppelpunktGroesser) {
-		op->addNode(match(State::kleinerDoppelpunktGroesser));
-	} else if (tokenType == State::UndZeichen) {
-		op->addNode(match(State::UndZeichen));
+	//if (token->getLine() == -1) {
+	//	return;
+	//}
+	if (tokenType == StateUpdated::Plus) {
+		op->addNode(match(StateUpdated::Plus));
+	} else if (tokenType == StateUpdated::Minus) {
+		op->addNode(match(StateUpdated::Minus));
+	} else if (tokenType == StateUpdated::Stern) {
+		op->addNode(match(StateUpdated::Stern));
+	} else if (tokenType == StateUpdated::VorwaertsSchraegstrich) {
+		op->addNode(match(StateUpdated::VorwaertsSchraegstrich));
+	} else if (tokenType == StateUpdated::KleinerAls) {
+		op->addNode(match(StateUpdated::KleinerAls));
+	} else if (tokenType == StateUpdated::GroesserAls) {
+		op->addNode(match(StateUpdated::GroesserAls));
+	} else if (tokenType == StateUpdated::IstGleichZeichen) {
+		op->addNode(match(StateUpdated::IstGleichZeichen));
+	} else if (tokenType == StateUpdated::kleinerDoppelpunktGroesser) {
+		op->addNode(match(StateUpdated::kleinerDoppelpunktGroesser));
+	} else if (tokenType == StateUpdated::UndZeichen) {
+		op->addNode(match(StateUpdated::UndZeichen));
 	} else {
-		std::cout << "snappppp3" << std::endl;
+		std::cout << "error on parseOp()" << std::endl;
 		error();
 	}
 	return op;
@@ -223,26 +261,24 @@ Node* Parser::parseOp() {
 
 void Parser::nextToken() {
 	token = scanner->nextToken();
-	std::cout << "Parser::nextToken() calls:  nextToken() " << token->getType() << " at "<< token->getLine() << ":" << token->getColumn() << std::endl;
-
+	//std::cout << "Parser::Parser() calls:  nextToken() " << token->getType() << std::endl;
+	//std::cout << "Parser::nextToken() calls:  nextToken() " << token->getType() << " at "<< token->getLine() << ":" << token->getColumn() << std::endl;
 }
 
-Node* Parser::match(State typ) {
-	std::cout << "In match 1: tokenType = " << token->getInformation()->getType() << ";  actual = " << typ << " ";
-	if (token->getInformation()->getType() != typ) {
+Node* Parser::match(StateUpdated typ) {
+	//std::cout << "In MATCH: actual tokenType = " << token->getType() << ";  desired = " << typ << " ";
+	if (token->getType() != typ) {
 		error();
 	} else {
-		std::cout << "TYPES MATCHED " << std::endl;
-
+		auto leaf = createNode(NodeType::LEAF);
+		leaf->setToken(token);
+		nextToken();
+		return leaf;
 	}
-	auto leaf = createNode(NodeType::LEAF);
-	leaf->setToken(token);
-	//leaf->setKey(token->getKey(), token->getValue());
-	nextToken();
-	return leaf;
+	
 }
 
-Node* Parser::match(CheckableType typ) {
+/*Node* Parser::match(CheckableType typ) {
 	std::cout << "In match 2: tokenType = " << token->getInformation()->getType() << ";  actual = "<< typ << " ";
 	if (token->getInformation()->getType() != typ) {
 		error();
@@ -254,10 +290,10 @@ Node* Parser::match(CheckableType typ) {
 	//leaf->setKey(token->getKey(), token->getValue());
 	nextToken();
 	return leaf;
-}
+}*/
 
 void Parser::error() {
-	std::cout << "unexpected token of type " << token->getInformation()->getType() << " at "<<
+	std::cout << "unexpected token of type " << token->getType() << " at "<<
 		token->getLine() << ":"<< token->getColumn() << std::endl;
 	//fprintf(stderr, "unexpected token '%s' at line '%d', column '%d'\n",
 	//		token->getValue(), token->getLine(), token->getColumn());
@@ -276,46 +312,70 @@ void Parser::errorTypeCheck(const char* message, Token* token) {
 	exit(1);
 }
 
+CheckType Parser::getCheckTypeOfIdentifier(Node* node) {
+	char* lexem = node->getToken()->getLexem();
+	return (CheckType) scanner->getInfo(lexem)->getCheckType();
+}
+
+void Parser::setCheckTypeOfIdentifier(Node* node, CheckType checkType) {
+	char* lexem = node->getToken()->getLexem();
+	scanner->getInfo(lexem)->setCheckType((int) checkType);
+}
+
+//
+// 1. Information test isWhile isIf isElse etc.
+// 2. Scanner should save all info types (incl. { [ etc)
+// 3. Information should operate on CheckType from Node.h, and not on int types NOT FEASIBLE
+// 
+
+
 void Parser::typeCheck(Node* node) {
 	if (node->getType() == NodeType::PROG) {
 		typeCheck(node->getNode(0));
 		typeCheck(node->getNode(1));
 		node->setCheckType(CheckType::noType);
+
+
 	} else if (node->getType() == NodeType::DECLS) {
 		if (node->getSubnodesCount() > 0) {
 			typeCheck(node->getNode(0));
 			typeCheck(node->getNode(2));
 		}
 		node->setCheckType(CheckType::noType);
+
+
 	} else if (node->getType() == NodeType::DECL) {
 		typeCheck(node->getNode(1));
-		auto nummb = node->getNode(2)->getToken()->getLexem();
-		//std::cout << "CHECK TYPE: "<< scanner->getInfo(node->getNode(2)->getToken()->getLexem())->setCheckType((CheckType)4) << std::endl;
-
-		if ((CheckType)scanner->getInfo(node->getNode(2)->getToken()->getLexem())->getCheckType()
-				!= CheckType::noType) {
-			errorTypeCheck("identifier already defined",
-					node->getNode(2)->getToken());
+		
+		if ( getCheckTypeOfIdentifier(node->getNode(2)) != CheckType::noType) {
+			errorTypeCheck("identifier already defined", node->getNode(2)->getToken());
 			node->setCheckType(CheckType::errorType);
 		} else if (node->getNode(1)->getCheckType() == CheckType::errorType) {
 			node->setCheckType(CheckType::errorType);
 		} else {
 			node->setCheckType(CheckType::noType);
 			if (node->getNode(1)->getCheckType() == CheckType::arrayType) {
-				scanner->getInfo(node->getNode(2)->getToken()->getLexem())->setCheckType(
-						(int)CheckType::intArrayType);
+				setCheckTypeOfIdentifier (node->getNode(2), CheckType::intArrayType);
 			} else {
-				scanner->getInfo(node->getNode(2)->getToken()->getLexem())->setCheckType(
-						(int)CheckType::intType);
+				setCheckTypeOfIdentifier (node->getNode(2), CheckType::intType);
 			}
 		}
+
+/*
+	getCheckTypeOfIdentifier(Node)
+
+	setCheckTypeOfIdentifier(Node , CheckType::intType)
+
+	node->setCheckType(CheckType::noType);
+
+	node->getCheckType()
+
+*/
 	} else if (node->getType() == NodeType::ARRAY) {
 		if (node->getSubnodesCount() == 0) {
 			node->setCheckType(CheckType::noType);
 		} else {
-			if (node->getNode(1)->getToken()->getValue() > 0 && node->getNode(1)->getToken()->getValue() != -666) {
-
-			//if (scanner->getInfo(node->getNode(1)->getToken()->getLexem())->getValue() > 0) {
+			if (node->getNode(1)->getToken()->getValue() > 0 ) {
 				node->setCheckType(CheckType::arrayType);
 			} else {
 				errorTypeCheck("no valid dimension",
@@ -330,14 +390,33 @@ void Parser::typeCheck(Node* node) {
 		}
 		node->setCheckType(CheckType::noType);
 	} else if (node->getType() == NodeType::STATEMENT) {
-		auto infotype = scanner->getInfo(node->getNode(0)->getToken()->getLexem())->getType();
-		if (infotype == CheckableType::writetyp) {
+
+
+		//std::cout << "node->getNode(0)->getToken()  " << node->getNode(0)->getToken()->getType() << std::endl;
+		
+		//CheckableType infotype;
+		//if (node->getNode(0)->getToken()->getType() == 27) {
+		//	infotype == CheckableType::Sign;
+		//} else {
+		//	infotype = getCheckTypeOfIdentifier(node->getNode(0));
+		//}
+		Information* info;
+		if ( node->getNode(0)->getToken()->getType() == 27) {
+			//info = nullptr;
+		} else {
+			
+		}
+		info = node->getNode(0)->getToken()->getInformation();
+		//std::cout << " info is not null " << std::endl;
+		if (info->isKlammerAuf()) {
+			typeCheck(node->getNode(1));
+			node->setCheckType(CheckType::noType);
+		} else if (info->isWrite()) {
 			typeCheck(node->getNode(2));
 			node->setCheckType(CheckType::noType);
-		} else if (infotype == CheckableType::readtyp) {
+		} else if (info->isRead()) {
 			typeCheck(node->getNode(3)); // INDEX
-			auto identCheckType = (CheckType)
-					scanner->getInfo(node->getNode(2)->getToken()->getLexem())->getCheckType();
+			auto identCheckType = getCheckTypeOfIdentifier(node->getNode(2));
 			auto indexCheckType = node->getNode(3)->getCheckType();
 			if (identCheckType == CheckType::noType) {
 				errorTypeCheck("identifier not defined",
@@ -353,10 +432,7 @@ void Parser::typeCheck(Node* node) {
 						node->getNode(2)->getToken());
 				node->setCheckType(CheckType::errorType);
 			}
-		} else if (infotype == CheckableType::Sign) { // Geschweifte Klammer auf
-			typeCheck(node->getNode(1));
-			node->setCheckType(CheckType::noType);
-		} else if (infotype == CheckableType::iftyp) {
+		} else if (info->isIf()) { // IF
 			typeCheck(node->getNode(2)); // exp
 			typeCheck(node->getNode(4)); // statement
 			typeCheck(node->getNode(6)); // statement
@@ -365,7 +441,7 @@ void Parser::typeCheck(Node* node) {
 			} else {
 				node->setCheckType(CheckType::noType);
 			}
-		} else if (infotype == CheckableType::whiletyp) {
+		} else if (info->isWhile()) { // WHILE
 			typeCheck(node->getNode(2)); // exp
 			typeCheck(node->getNode(4)); // statement
 			if (node->getNode(2)->getCheckType() == CheckType::errorType) {
@@ -373,22 +449,18 @@ void Parser::typeCheck(Node* node) {
 			} else {
 				node->setCheckType(CheckType::noType);
 			}
-		} else if (infotype == CheckableType::Identifier) {
+		} else if (info->isIdentifier()) { // IDENTIFIER
 			typeCheck(node->getNode(1)); // index
 			typeCheck(node->getNode(3)); // exp
-			auto identCheckType =
-					(CheckType)scanner->getInfo(node->getNode(0)->getToken()->getLexem())->getCheckType();
+			auto identCheckType = getCheckTypeOfIdentifier(node->getNode(0));
+
 			if (identCheckType == CheckType::noType) {
 				errorTypeCheck("identifier not defined",
 						node->getNode(0)->getToken());
 				node->setCheckType(CheckType::errorType);
 			} else if (node->getNode(3)->getCheckType() == CheckType::intType
-					&& ((identCheckType == CheckType::intType
-							&& node->getNode(1)->getCheckType()
-									== CheckType::noType)
-							|| (identCheckType == CheckType::intArrayType
-									&& node->getNode(1)->getCheckType()
-											== CheckType::arrayType))) {
+					&& ((identCheckType == CheckType::intType && node->getNode(1)->getCheckType() == CheckType::noType)
+							|| (identCheckType == CheckType::intArrayType && node->getNode(1)->getCheckType() == CheckType::arrayType))) {
 				node->setCheckType(CheckType::noType);
 			} else {
 				errorTypeCheck("incompatible types",
@@ -419,6 +491,9 @@ void Parser::typeCheck(Node* node) {
 			node->setCheckType(node->getNode(0)->getCheckType());
 		}
 	} else if (node->getType() == NodeType::EXP2) {
+		// crash 2
+		
+
 		auto firstNode = scanner->getInfo(node->getNode(0)->getToken()->getLexem());
 		if (strcmp(firstNode->getLexem(), "(") == 0
 				|| strcmp(firstNode->getLexem(), "-") == 0) {
@@ -431,9 +506,11 @@ void Parser::typeCheck(Node* node) {
 			} else {
 				node->setCheckType(CheckType::intType);
 			}
-		} else if (firstNode->getType() == CheckableType::Integer) {
+		} else if (node->getNode(0)->getToken()->getValue() != -666) { // NUMBER
+			//std::cout << "it recognised the number ! " << std::endl;
 			node->setCheckType(CheckType::intType);
-		} else if (firstNode->getType() == CheckableType::Identifier) {
+			//firstNode->setType(CheckableType::Integer);
+		} else if (firstNode->isIdentifier()) {
 			typeCheck(node->getNode(1));
 			auto identInfo = scanner->getInfo(node->getNode(0)->getToken()->getLexem());
 			if ((CheckType)identInfo->getCheckType() == CheckType::noType) {
@@ -469,7 +546,7 @@ void Parser::typeCheck(Node* node) {
 			node->setCheckType(CheckType::opMinus);
 		} else if (strcmp(lexem, "*") == 0) {
 			node->setCheckType(CheckType::opMult);
-		} else if (strcmp(lexem, "/") == 0) {
+		} else if (strcmp(lexem, "/") == 0) { // from / to :
 			node->setCheckType(CheckType::opDiv);
 		} else if (strcmp(lexem, "<") == 0) {
 			node->setCheckType(CheckType::opLess);
@@ -477,9 +554,9 @@ void Parser::typeCheck(Node* node) {
 			node->setCheckType(CheckType::opGreater);
 		} else if (strcmp(lexem, "=") == 0) {
 			node->setCheckType(CheckType::opEqual);
-		} else if (strcmp(lexem, "<:>") == 0) {
+		} else if (strcmp(lexem, "<:>") == 0) { // from <:> to =:=
 			node->setCheckType(CheckType::opUnequal);
-		} else if (strcmp(lexem, "&") == 0) {
+		} else if (strcmp(lexem, "&") == 0) { // from & to &&
 			node->setCheckType(CheckType::opAnd);
 		}
 	}
@@ -515,24 +592,37 @@ void Parser::makeCode(Node* node) {
 			code << "NOP " << endl;
 		}
 	} else if (node->getType() == NodeType::STATEMENT) {
-		auto firstNodeInfo = scanner->getInfo(node->getNode(0)->getToken()->getLexem());
-		if (firstNodeInfo->getType() == CheckableType::Identifier) {
+		// new CRASH exactly like the one during parsing phase
+
+		//std::cout << "damn TYPE: " << node->getNode(0)->getToken()->getType() << std::endl;
+		Information* firstNodeInfo;
+		if (node->getNode(0)->getToken()->getType() != 27) {
+			// firstNodeInfo = node->getNode(0)->getToken()->getInformation();
+		} else {
+			//firstNodeInfo = new Information();
+			//firstNodeInfo->setType(CheckableType::Sign); TODO we just commented it out, need to clean the consequences up
+
+		}
+
+		firstNodeInfo = node->getNode(0)->getToken()->getInformation();
+		
+		if (firstNodeInfo->isIdentifier()) {
 			makeCode(node->getNode(3)); // EXP
 			code << "LA $" << firstNodeInfo->getLexem() << endl;
 			makeCode(node->getNode(1)); // INDEX
 			code << "STR " << endl;
-		} else if (firstNodeInfo->getType() == CheckableType::writetyp) {
+		} else if (firstNodeInfo->isWrite()) {
 			makeCode(node->getNode(2)); // EXP
 			code << "PRI " << endl;
-		} else if (firstNodeInfo->getType() == CheckableType::readtyp) {
+		} else if (firstNodeInfo->isRead()) {
 			code << "REA " << endl;
 			code << "LA $"
 					<< scanner->getInfo(node->getNode(2)->getToken()->getLexem())->getLexem() << endl;
 			makeCode(node->getNode(3)); // INDEX
 			code << "STR " << endl;
-		} else if (firstNodeInfo->getType() == CheckableType::Sign) {
+		} else if (firstNodeInfo->isKlammerAuf()) { // TODO here we actually compared it with CheckableType::Sign
 			makeCode(node->getNode(1)); // STATEMENTS
-		} else if (firstNodeInfo->getType() == CheckableType::iftyp) {
+		} else if (firstNodeInfo->isIf()) {
 
 			makeCode(node->getNode(2)); // EXP
 			int thisLabel = labelcounter;
@@ -544,7 +634,7 @@ void Parser::makeCode(Node* node) {
 			makeCode(node->getNode(6)); // STEATEMENT
 			code << "#n" << thisLabel << " NOP " << endl;
 
-		} else if (firstNodeInfo->getType() == CheckableType::whiletyp) {
+		} else if (firstNodeInfo->isWhile()) {
 			int thisLabel = labelcounter;
 			labelcounter++;
 			code << "#m" << thisLabel << " NOP " << endl;
@@ -555,6 +645,8 @@ void Parser::makeCode(Node* node) {
 			code << "#n" << thisLabel << " NOP " << endl;
 		}
 	} else if (node->getType() == NodeType::EXP) {
+
+
 		if (node->getNode(1)->getCheckType() == CheckType::noType) {
 			makeCode(node->getNode(0)); // EXP2
 		} else if (node->getNode(1)->getNode(0)->getCheckType()
@@ -581,11 +673,11 @@ void Parser::makeCode(Node* node) {
 		int vvvalue = node->getNode(0)->getToken()->getValue();
 		if (strcmp(firstNodeInfo->getLexem(), "(") == 0) {
 			makeCode(node->getNode(1)); // EXP
-		} else if (firstNodeInfo->getType() == CheckableType::Identifier) {
+		} else if (firstNodeInfo->isIdentifier()   &&   node->getNode(0)->getToken()->getValue() == -666) {
 			code << "LA $" << firstNodeInfo->getLexem() << endl;
 			makeCode(node->getNode(1)); // INDEX
 			code << "LV " << endl;
-		} else if (firstNodeInfo->getType() == CheckableType::Integer) {
+		} else if (node->getNode(0)->getToken()->getValue() != -666) {
 			code << "LC " << vvvalue << endl;
 		} else if (strcmp(firstNodeInfo->getLexem(), "-") == 0) {
 			code << "LC 0" << endl;
@@ -608,16 +700,16 @@ void Parser::makeCode(Node* node) {
 			code << "SUB" << endl;
 		} else if (strcmp(lexem, "*") == 0) {
 			code << "MUL" << endl;
-		} else if (strcmp(lexem, "/") == 0) {
+		} else if (strcmp(lexem, ":") == 0) {
 			code << "DIV" << endl;
 		} else if (strcmp(lexem, "<") == 0) {
 			code << "LES" << endl;
 		} else if (strcmp(lexem, ">") == 0) {
 		} else if (strcmp(lexem, "=") == 0) {
 			code << "EQU" << endl;
-		} else if (strcmp(lexem, "<:>") == 0) {
+		} else if (strcmp(lexem, "=:=") == 0) {
 			code << "EQU" << endl;
-		} else if (strcmp(lexem, "&") == 0) {
+		} else if (strcmp(lexem, "&&") == 0) {
 			code << "AND" << endl;
 		}
 	}

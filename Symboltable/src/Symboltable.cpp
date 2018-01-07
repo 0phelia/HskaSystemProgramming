@@ -94,6 +94,3 @@ void Symboltable::initSymbols() {
 	insert("read", 4);
 }
 
-void Symboltable::attachType(char* lexem, CheckableType type) {
-	this->lookup(lexem)->setType(type);
-}

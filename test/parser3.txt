@@ -1,11 +1,5 @@
-int a;
+int[8] arr;
 int b;
-int n;
-
-{
-while(a = 7)
-{
- d := !(-n) - 5;
-};
-
-};
+:* b := arr; RECOGNIZED AS no primitive Type ERROR *:
+:* arr := b; RECOGNIZED AS incompatible types ERROR *:
+:* c := 2; RECOGNIZED AS identifier not defined ERROR *:

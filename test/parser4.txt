@@ -1,7 +1,7 @@
 int i;
-int prax[5];
+int[5] prax;
 while (prax[4] > (3 * i)) { :* Endlosschleife oder nicht kann hier egal sein *:
-  if (i < 8) prax[2] = 5;
+  if (i < 8) prax[2] := 5
   else {
     write (prax[0] - prax[3] * i);
     read (prax[0]);

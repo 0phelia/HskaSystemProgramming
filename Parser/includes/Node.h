@@ -11,23 +11,28 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "../../Scanner/includes/Token.h"
+
+
+#ifndef SHITHOLE
+#define SHITHOLE
 enum class CheckType {
-	emptyType,
-	intType,
-	intArrayType,
-	arrayType,
-	noType,
-	errorType,
-	opPlus,
-	opMinus,
-	opMult,
-	opDiv,
-	opLess,
-	opGreater,
-	opEqual,
-	opUnequal,
-	opAnd
+	emptyType,  	// 0	
+	noType, 		// 1
+	intType, 		// 2
+	intArrayType, 	// 3
+	arrayType, 		// 4
+	errorType, 		// 5
+	opPlus, 		// 6
+	opMinus, 		// 7
+	opMult, 		// 8
+	opDiv, 			// 9
+	opLess, 		// 10
+	opGreater, 		// 11
+	opEqual, 		// 12
+	opUnequal, 		// 13
+	opAnd 			// 14
 };
+#endif 
 
 enum class NodeType {
 	PROG,
