@@ -1,0 +1,9 @@
+int[10] theArray;
+int n;
+theArray[0] := 1;
+theArray[1] := 2;
+write(theArray[1]);
+while (n < 10) {
+theArray[n] := 1;
+n := n+1;
+};

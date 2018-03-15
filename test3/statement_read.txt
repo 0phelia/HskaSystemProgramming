@@ -1,0 +1,10 @@
+int[3] value;
+
+value[1] := 9;
+
+read (value[1]);
+read (value[value[1]]);
+
+read (value); :*gibt fehler da value n intArray ist und kein index hat*:
+read (value[value]);
+read (value[value[value]]); :*gibt fehler da value kein int ist sondern array*:
