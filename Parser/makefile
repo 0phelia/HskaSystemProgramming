@@ -22,7 +22,7 @@ makeTestParser: $(OBJS) ParserTest
 
 $(OBJDIR)/%.o :  $(SRCDIR)/%.cpp $(HEADERDIR)/%.h
 	@echo "g++ $*.cpp"
-	g++ $(GPP_ARGS) -g3 -w -c -o $@  $<
+	g++ -std=$(CPPVERSION) $(GPP_ARGS) -g3 -w -c -o $@  $<
 
 # stick the rest of your *.o files into here
 ParserTest: $(SRCDIR)/TestParser.cpp $(HEADERDIR)/Parser.h

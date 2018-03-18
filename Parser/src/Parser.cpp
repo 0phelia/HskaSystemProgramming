@@ -598,7 +598,7 @@ void Parser::makeCode(Node* node) {
 		Information* firstNodeInfo;
 		if (node->getNode(0)->getToken()->getType() != 27) {
 			// firstNodeInfo = node->getNode(0)->getToken()->getInformation();
-		} else {
+             } else {
 			//firstNodeInfo = new Information();
 			//firstNodeInfo->setType(CheckableType::Sign); TODO we just commented it out, need to clean the consequences up
 
