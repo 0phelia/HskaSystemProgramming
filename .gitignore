@@ -1,3 +1,8 @@
+**/out.txt
+**/debug/**
+**/objs/**
+!**/.gitkeep
+
 # Prerequisites
 *.d
 
