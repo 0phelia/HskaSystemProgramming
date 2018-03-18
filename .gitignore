@@ -1,7 +1,7 @@
 **/out.txt
-**/debug/**
-**/objs/**
-build/
+**/debug/
+**/objs/
+**/build/
 .idea/
 
 # Created by https://www.gitignore.io/api/c++,clion

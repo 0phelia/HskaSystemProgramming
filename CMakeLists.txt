@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 project(sysprog)
-include(gtest.cmake)
-
-
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -26,7 +23,6 @@ add_executable(sysprog
         Buffer/includes/malloc.h
         Buffer/src/Buffer.cpp
         Buffer/src/TestBuffer.cpp
-        Buffer/catch.hpp
         Compatibility/compab.h
         Parser/includes/Node.h
         Parser/includes/Parser.h
@@ -49,7 +45,3 @@ add_executable(sysprog
         Symboltable/src/TestStringTab.cpp
         Symboltable/src/TestSymboltable.cpp
         main.cpp)
-
-# GTest needs threading support
-find_package (Threads)
-target_link_libraries(... gtest ${CMAKE_THREAD_LIBS_INIT})
