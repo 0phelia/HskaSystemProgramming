@@ -36,6 +36,8 @@ makedirs:
 	mkdir -p $(SYMBOLTABLEDIR)/$(DEBUGDIR)
 	mkdir -p $(SCANNERDIR)/$(OBJDIR)
 	mkdir -p $(SCANNERDIR)/$(DEBUGDIR)
+	mkdir -p $(PARSERDIR)/$(OBJDIR)
+	mkdir -p $(PARSERDIR)/$(DEBUGDIR)
 	
 automatOBJs:
 	$(MAKE) -C $(AUTOMATDIR) AutomatOBJTarget
