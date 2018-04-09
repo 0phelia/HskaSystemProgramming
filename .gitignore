@@ -1,4 +1,6 @@
 **/out.txt
+**/parser_out.txt
+**/scanner_out.txt
 **/debug/
 **/objs/
 **/build/
