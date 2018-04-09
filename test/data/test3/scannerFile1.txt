@@ -1,0 +1,43 @@
+Token *Scanner::nextToken() {
+    bool lexemFound = false;
+    newLine = false;
+    while (!lexemFound) {
+
+        currentChar = buffer->getChar();
+        line = buffer->getLine();
+        column = buffer->getColumn();
+        automat->readChar(currentChar);
+        lexemFound = automat->foundLexem();
+
+
+         if (currentChar == '\0') {
+            stopit = true;
+            break;
+        }else if(currentChar == '&'){
+             andSign = true;
+         }
+         else if(currentChar == '\n'){
+            if(lexemFound ) {
+                line = line - 1;
+                if(column == 0)
+                    column = buffer->getPrevColumn();
+            }else if(newLine) {
+                 newLine = false;
+                 column = column + 2;
+                 line = line - 1;
+             }else {
+                 newLine = true;
+
+
+
+
+int a = 2487;
+int c = 3;
+String str = "test";
+int b [3];
+int d = a + c;
+
+if(d > 100) {
+    c++;
+    }
+

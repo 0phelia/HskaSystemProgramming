@@ -1,0 +1,17 @@
+int[10] theArray;
+int n;
+theArray[0] := 1;
+theArray[1] := 2;
+n := 0;
+write(theArray[0]);
+
+while(n < 10){
+    theArray[n] := 999;
+    if( n =:= 5){
+        write(n);
+    }else{
+        theArray[0] := 9;
+    };
+    n := n + 1;
+};
+

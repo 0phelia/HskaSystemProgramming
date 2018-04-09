@@ -1,5 +1,0 @@
-int[8] arr;
-int b;
-:* b := arr; RECOGNIZED AS no primitive Type ERROR *:
-:* arr := b; RECOGNIZED AS incompatible types ERROR *:
-:* c := 2; RECOGNIZED AS identifier not defined ERROR *:

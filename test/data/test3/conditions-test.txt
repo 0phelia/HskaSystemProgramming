@@ -1,0 +1,17 @@
+int a;
+int b;
+a := 3;
+b := 6;
+
+
+if(!(a<b)) write(a) else write(b);
+
+if(a < b) write(a) else write(b);
+
+if(a > b) write(a) else write(b);
+
+if(a=:=b) write(a) else write(b);
+
+if( a < b  && ! a=:=b) write(a) else write(b);
+
+

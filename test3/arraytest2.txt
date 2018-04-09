@@ -1,9 +1,0 @@
-int[10] theArray;
-int[10] theInnerArray;
-int[10] theInnerInnerArray;
-int[10] theInnerInnerInnerArray;
-theArray[theInnerArray] := 1;   :* Line 9 *:
-theArray[theInnerArray[theInnerInnerArray]] := 1; :* Line 23 *:
-theArray[theInnerArray[theInnerInnerArray[theInnerInnerInnerArray]]] := 1; :* Line 42 sollte fehler geben da n index kein intarray datatype sein kann*:
-theArray := theInnerArray;
-theArray := theInnerArray[1];

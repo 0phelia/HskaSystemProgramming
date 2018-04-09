@@ -1,0 +1,13 @@
+int value1;
+int [5]value2;
+int [5]value4;
+value1 := 1;
+value2  [5]  :=  5;
+value4[5] := 1;
+
+value2[value4[4]]  := value4[1]; :*gut*:
+value2[0] := -(2 + 2);
+value2[(1-1)] := 3;
+
+
+value2[0] := value4[2] - value2[0];  :*gut*:

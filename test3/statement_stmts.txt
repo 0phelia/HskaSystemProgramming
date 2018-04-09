@@ -1,8 +1,0 @@
-:*hier stimmt iwas net*:
-  int value;
-
-  {
-  value := 3;
-  write(value);
-  { value := 7; };
-};
