@@ -101,7 +101,7 @@ bool TEST_ungetChar(char *filename) {
     return true;
 }
 
-TEST_CASE("Buffer works", "[buffer_all]") {
+TEST_CASE("Buffer works", "[buffer]") {
 
     std::string buf(TEST_ROOT_DIR);
     buf.append("/data/test.txt");

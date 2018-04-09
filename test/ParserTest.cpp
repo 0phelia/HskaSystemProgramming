@@ -7,9 +7,9 @@
 #include <catch.hpp>
 #include "../lib/parser/include/Parser.h"
 
-TEST_CASE("Parser throws no exceptions", "[parser_all]") {
+TEST_CASE("Parser throws no exceptions", "[parser]") {
     std::string buf(TEST_ROOT_DIR);
-    buf.append("/data/test1/parser0.txt");
+    buf.append("/data/test1/parser3.txt");
     INFO(buf);
 
     std::string buf2(TEST_ROOT_DIR);

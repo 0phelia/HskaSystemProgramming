@@ -18,7 +18,7 @@ get_timestamp() {
 
 TEST_CASE("scanner works", "[scanner]") {
     std::string buf(TEST_ROOT_DIR);
-    buf.append("/data/test1/scanner0.txt");
+    buf.append("/data/test.txt");
     INFO(buf);
 
     std::string buf2(TEST_ROOT_DIR);

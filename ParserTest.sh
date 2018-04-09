@@ -6,20 +6,11 @@ echo "C&R Parser"
  if [ "$1" == "" ]
     then
     	echo "recompiling"
-        make 2>&1 >/dev/null | grep "error"
-		cd Parser
-		make 2>&1 >/dev/null | grep "error"
-		./debug/ParserTest ../test/parser5.txt out.txt
+        mkdir build && cd build && cmake .. && make 2>&1 >/dev/null | grep "error"
+		./test/tests [parser]
 		cd ..
     else
     	echo "no recompiling"
-        ./debug/ParserTest ../test/parser5.txt out.txt
+        ./build/test/tests [parser]
 		cd ..
 fi
-
-#make 2>&1 >/dev/null | grep "error"
-#cd Parser
-#make 2>&1 >/dev/null | grep "error"
-#
-#./debug/ParserTest ../test/parser3.txt out.txt
-#cd ..

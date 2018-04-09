@@ -38,7 +38,7 @@ const char *getNextLexem(Automat *automat, char *inputString) {
 // Syntax::getState(int i, int j)
 
 
-TEST_CASE("AUTOMAT.CPP TEST: Lexems are processed", "[char]") {
+TEST_CASE("AUTOMAT.CPP TEST: Lexems are processed", "[automat]") {
     // TEST CASE SETUP
     Automat *automat = new Automat();
 
@@ -48,7 +48,7 @@ TEST_CASE("AUTOMAT.CPP TEST: Lexems are processed", "[char]") {
 }
 
 
-TEST_CASE("SYNTAX.CPP TEST -> matches()", "[char]") {
+TEST_CASE("SYNTAX.CPP TEST -> matches()", "[automat][syntax]") {
     // TEST CASE SETUP
     Syntax *syntax = new Syntax();
 
@@ -71,7 +71,7 @@ TEST_CASE("SYNTAX.CPP TEST -> matches()", "[char]") {
     REQUIRE(syntax->matches("if", "iF") == false);
 }
 
-TEST_CASE("SYNTAX.CPP TEST -> ifKeyword()", "[char]") {
+TEST_CASE("SYNTAX.CPP TEST -> ifKeyword()", "[automat][syntax]") {
     // TEST CASE SETUP
     Syntax *syntax = new Syntax();
 
@@ -94,7 +94,7 @@ TEST_CASE("SYNTAX.CPP TEST -> ifKeyword()", "[char]") {
     REQUIRE(syntax->ifKeyword("WHILe") == -1);
 }
 
-TEST_CASE("SYNTAX.CPP TEST -> isPacked()", "[char]") {
+TEST_CASE("SYNTAX.CPP TEST -> isPacked()", "[automat][syntax]") {
     // TEST CASE SETUP
     Syntax *syntax = new Syntax();
     const char *signArray = new const char[14]
@@ -120,7 +120,7 @@ TEST_CASE("SYNTAX.CPP TEST -> isPacked()", "[char]") {
 }
 
 
-TEST_CASE("STACK.CPP TEST -> push(); trim(); get(); flush()", "[char]") {
+TEST_CASE("STACK.CPP TEST -> push(); trim(); get(); flush()", "[automat][stack]") {
     // TEST CASE SETUP
     Stack *stack = new Stack();
 
@@ -155,7 +155,7 @@ TEST_CASE("STACK.CPP TEST -> push(); trim(); get(); flush()", "[char]") {
     REQUIRE(!strcmp(stack->get(), ""));
 }
 
-TEST_CASE("AUTOMAT.CPP TEST -> read(char currentChar); reset()", "[char]") {
+TEST_CASE("AUTOMAT.CPP TEST -> read(char currentChar); reset()", "[automat]") {
     // TEST CASE SETUP
     Automat *automat = new Automat();
 
@@ -187,7 +187,7 @@ TEST_CASE("AUTOMAT.CPP TEST -> read(char currentChar); reset()", "[char]") {
     REQUIRE(result4 == 0);
 }
 
-TEST_CASE("AUTOMAT.CPP TEST -> updatePos(char c); :getLine(); getColumn()", "[char]") {
+TEST_CASE("AUTOMAT.CPP TEST -> updatePos(char c); :getLine(); getColumn()", "[automat]") {
     // TEST CASE SETUP
     Automat *automat = new Automat();
 
