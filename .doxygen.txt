@@ -46,7 +46,7 @@ PROJECT_BRIEF          = "A Compiler for Sysprog"
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = lib/automat/src lib/buffer/src lib/parser/src lib/scanner/src lib/symbotable/src
+INPUT                  = lib src
 
 #---------------------------------------------------------------------------
 # Shared
