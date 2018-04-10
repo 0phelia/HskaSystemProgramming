@@ -1,0 +1,8 @@
+#pragma once
+
+const char* getTestPath(const char* path)
+{
+	std::string buf(TEST_DIR);
+	buf.append(path);
+	return const_cast<char *>(buf.c_str());
+}

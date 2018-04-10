@@ -1,4 +1,4 @@
-#include "../lib/buffer/include/Buffer.h"
+#include "Buffer.h"
 #include <iostream>
 #include <catch.hpp>
 
@@ -103,8 +103,8 @@ bool TEST_ungetChar(char *filename) {
 
 TEST_CASE("Buffer works", "[buffer]") {
 
-    std::string buf(TEST_ROOT_DIR);
-    buf.append("/data/test.txt");
+    std::string buf(TEST_DIR);
+    buf.append("/test.txt");
     INFO(buf);
 
     char *filename = const_cast<char *>(buf.c_str());

@@ -2,8 +2,8 @@
 #include <sys/time.h>
 #include <fstream>
 #include <catch.hpp>
-#include "../lib/symboltable/include/Symboltable.h"
-#include "../lib/scanner/include/Scanner.h"
+#include "Symboltable.h"
+#include "Scanner.h"
 
 /* copypasted piece of code for time measurements */
 typedef unsigned long long timestamp_t;

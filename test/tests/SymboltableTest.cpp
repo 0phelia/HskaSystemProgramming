@@ -1,7 +1,7 @@
 #include <iostream>
 #include <catch.hpp>
-#include "../lib/symboltable/include/Symboltable.h"
-#include "../lib/scanner/include/Information.h"
+#include "Symboltable.h"
+#include "Information.h"
 
 TEST_CASE("symboltable works", "[symboltable]") {
 

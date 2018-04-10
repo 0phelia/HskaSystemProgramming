@@ -1,6 +1,6 @@
 #include <iostream>
 #include <catch.hpp>
-#include "../lib/symboltable/include/StringTab.h"
+#include "StringTab.h"
 
 TEST_CASE("Stringtab works", "[stringtab]") {
 	StringTab * st = new StringTab();

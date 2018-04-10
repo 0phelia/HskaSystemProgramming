@@ -5,7 +5,7 @@
  *      Author: arty
  */
 #include <catch.hpp>
-#include "../lib/parser/include/Parser.h"
+#include "Parser.h"
 
 TEST_CASE("Parser throws no exceptions", "[parser]") {
     std::string buf(TEST_ROOT_DIR);

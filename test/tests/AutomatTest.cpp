@@ -1,8 +1,8 @@
 #define CATCH_CONFIG_MAIN
 
-#include "../lib/automat/include/Automat.h"
+#include "Automat.h"
 #include <iostream>
-#include "../includes/catch/catch.hpp"
+#include "catch.hpp"
 
 #define WSP_Z 12
 #define CLSC_Z 16
