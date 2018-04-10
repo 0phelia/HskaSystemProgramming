@@ -1,5 +1,9 @@
 # SysProg2018
 
+## System Recommendations
+- OS: If possible, use Linux, MacOS or Windows 10 with WSL. Else, use Windows with Cygwin. 
+- IDE: If possible, use Jetbrains CLion 2018.1 (on Windows 10, use the WSL toolchain)
+ 
 ## Code Style
 
 Consider the following Best Practices when contributing:
@@ -14,6 +18,8 @@ make
 
 ## Test
 ```
+(vom Projekt-Root-Verzeichnis aus)
+
 cd build/test/
 ./tests [automat]
 ./tests [buffer]
@@ -29,12 +35,18 @@ cd build/test/
 ./tests *
 ```
 
-## Generate Doxygen
+## Generate Docs
 ```
 doxygen .doxygen.txt
 ```
 
-#### Alt
+
+
+
+
+
+=========================================
+#### Alte Readme:
 
 Run ./ParserTest.sh
 
