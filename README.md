@@ -8,15 +8,24 @@ make
 
 ## Test
 ```
-(in Ordner ./build)
-./test/tests [automat]
-./test/tests [buffer]
-./test/tests [parser]
-./test/tests [scanner]
-./test/tests [stringtab]
-./test/tests [symboltable]
+cd build/test/
+./tests [automat]
+./tests [buffer]
+./tests [parser]
+./tests [scanner]
+./tests [stringtab]
+./tests [symboltable]
+```
 
-oder ./test/tests *
+oder alle mit einem Befehl: 
+```
+cd build/test/
+./tests *
+```
+
+## Generate Doxygen
+```
+doxygen .doxygen.txt
 ```
 
 #### Alt
