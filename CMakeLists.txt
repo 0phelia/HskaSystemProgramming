@@ -6,11 +6,6 @@ SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 SET(CMAKE_CXX_STANDARD 14)
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wpedantic")
 
-#SET(LIB_SRC
-#        lib/Buffer/Buffer.cpp
-#        lib/scanner/scanner.cpp
-#        lib/state-machine/state-machine.cpp
-#        lib/symboltable/symboltable.cpp)
 
 
 # -DWITH_TESTS=ON -DWITH_VALGRIND=ON -DWITH_COVERALLS=ON
@@ -43,14 +38,14 @@ ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(test)
 
 
-## Setup the coveralls target and tell it to gather
-## coverage data for all the lib sources.
-#if (WITH_COVERALLS)
-#    coveralls_setup(
-#            "${LIB_SRC}"
-#            ${COVERALLS_UPLOAD}
-#            "${PROJECT_SOURCE_DIR}/coveralls-cmake/cmake")
-#endif()
+# Setup the coveralls target and tell it to gather
+# coverage data for all the lib sources.
+if (WITH_COVERALLS)
+    coveralls_setup(
+            "${LIB_SRC}"
+            ${COVERALLS_UPLOAD}
+            "${PROJECT_SOURCE_DIR}/coveralls-cmake/cmake")
+endif()
 
 
 MESSAGE(STATUS "CMAKE_GENERATOR: ${CMAKE_GENERATOR}")
