@@ -1,8 +1,8 @@
 # SysProg2018
 
 ## System Recommendations
-- OS: If possible, use Linux, MacOS or Windows 10 with WSL. Else, use Windows with Cygwin. 
-- IDE: If possible, use Jetbrains CLion 2018.1 (on Windows 10, use the WSL toolchain) or XCode
+- OS: If possible, use **Linux, MacOS or Windows 10 with WSL**. Else, use Windows with Cygwin. 
+- IDE: If possible, use **Jetbrains CLion 2018.1** (on Windows 10, use the WSL toolchain) or **XCode**
  
 ## Code Style
 
