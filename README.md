@@ -1,5 +1,11 @@
 # SysProg2018
 
+## Code Style
+
+Consider the following Best Practices when contributing:
+https://github.com/lefticus/cppbestpractices/blob/master/03-Style.md
+
+
 ## Build
 ```
 mkdir build && cd build && cmake ..
